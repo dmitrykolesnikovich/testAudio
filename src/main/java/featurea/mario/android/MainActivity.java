@@ -2,6 +2,7 @@ package featurea.mario.android;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import featurea.android.util.ApkFileUtil;
 import featurea.util.FileUtil;
 
@@ -15,10 +16,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String path = Environment.getExternalStorageDirectory().getPath();
+        new File(path + "/temp").mkdirs();
         try {
             JarFile jarFile = ApkFileUtil.getInstance().getFile(getApplication());
             InputStream inputStream = jarFile.getInputStream(jarFile.getEntry("Castle.mp3"));
-            FileUtil.copyPaste(inputStream, new File("temp/Castle.mp3"));
+            FileUtil.copyPaste(inputStream, new File(path + "/temp/Castle.mp3"));
         } catch (IOException e) {
             e.printStackTrace();
         }
